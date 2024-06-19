@@ -50,7 +50,8 @@ class _HomePageState extends State<HomePage> {
               child: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  showSearch(context: context, delegate: DrinkSearchDelegate(drinks));
+                  showSearch(
+                      context: context, delegate: DrinkSearchDelegate(drinks));
                 },
               ),
             ),
@@ -96,7 +97,9 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DrinkDetail(drink: drink),
+                            builder: (context) => DrinkDetail(
+                              id: drink["idDrink"],
+                            ),
                           ),
                         );
                       },
@@ -240,7 +243,10 @@ class DrinkSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    final results = drinks.where((drink) => drink["strDrink"].toLowerCase().contains(query.toLowerCase())).toList();
+    final results = drinks
+        .where((drink) =>
+            drink["strDrink"].toLowerCase().contains(query.toLowerCase()))
+        .toList();
 
     return Container(
       decoration: BoxDecoration(
@@ -260,12 +266,15 @@ class DrinkSearchDelegate extends SearchDelegate {
                     "http://www.4motiondarlington.org/wp-content/uploads/2013/06/No-image-found.jpg",
               ),
             ),
-            title: Text("${drink["strDrink"]}", style: TextStyle(color: Colors.white)),
+            title: Text("${drink["strDrink"]}",
+                style: TextStyle(color: Colors.white)),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DrinkDetail(drink: drink),
+                  builder: (context) => DrinkDetail(
+                    id: drink["idDrink"],
+                  ),
                 ),
               );
             },
@@ -277,7 +286,10 @@ class DrinkSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = drinks.where((drink) => drink["strDrink"].toLowerCase().contains(query.toLowerCase())).toList();
+    final suggestions = drinks
+        .where((drink) =>
+            drink["strDrink"].toLowerCase().contains(query.toLowerCase()))
+        .toList();
 
     return Container(
       decoration: BoxDecoration(
@@ -297,7 +309,8 @@ class DrinkSearchDelegate extends SearchDelegate {
                     "http://www.4motiondarlington.org/wp-content/uploads/2013/06/No-image-found.jpg",
               ),
             ),
-            title: Text("${drink["strDrink"]}", style: TextStyle(color: Colors.white)),
+            title: Text("${drink["strDrink"]}",
+                style: TextStyle(color: Colors.white)),
             onTap: () {
               query = drink["strDrink"];
               showResults(context);
