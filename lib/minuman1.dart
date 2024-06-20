@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:newsample/drink_detail.dart'; // Mengimpor dari drink_detail.dart
+import 'package:newsample/drinkdetail.dart'; // Mengimpor dari drink_detail.dart
 
 class MinumanSatu extends StatefulWidget {
   @override
@@ -70,7 +70,7 @@ class _MinumanSatuState extends State<MinumanSatu> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DrinkDetail(drink: drink),
+                          builder: (context) => DrinkDetailPage(id: drink["idDrink"]),
                         ),
                       );
                     },

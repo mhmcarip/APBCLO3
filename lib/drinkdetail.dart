@@ -4,16 +4,16 @@ import 'package:newsample/utils/const.dart';
 
 import 'main.dart';
 
-class DrinkDetail extends StatefulWidget {
+class DrinkDetailPage extends StatefulWidget {
   final String id;
 
-  const DrinkDetail({Key? key, required this.id}) : super(key: key);
+  const DrinkDetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  State<DrinkDetail> createState() => _DrinkDetailState();
+  State<DrinkDetailPage> createState() => _DrinkDetailPageState();
 }
 
-class _DrinkDetailState extends State<DrinkDetail> {
+class _DrinkDetailPageState extends State<DrinkDetailPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

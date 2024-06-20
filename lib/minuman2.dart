@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:newsample/drink_detail.dart'; // Mengimpor dari drink_detail.dart
+import 'package:newsample/drinkdetail.dart'; // Mengimpor dari drink_detail.dart
 
 class MinumanDua extends StatefulWidget {
   @override
@@ -9,7 +9,8 @@ class MinumanDua extends StatefulWidget {
 }
 
 class _MinumanDuaState extends State<MinumanDua> {
-  var api = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic";
+  var api =
+      "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic";
   var res, drinks;
 
   @override
@@ -70,14 +71,17 @@ class _MinumanDuaState extends State<MinumanDua> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DrinkDetail(drink: drink),
+                          builder: (context) =>
+                              DrinkDetailPage(id: drink["idDrink"]),
                         ),
                       );
                     },
                   );
                 },
               )
-            : Center(child: CircularProgressIndicator(backgroundColor: Colors.white)),
+            : Center(
+                child:
+                    CircularProgressIndicator(backgroundColor: Colors.white)),
       ),
     );
   }

@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DrinkDetail(
+                            builder: (context) => DrinkDetailPage(
                               id: drink["idDrink"],
                             ),
                           ),
@@ -272,7 +272,7 @@ class DrinkSearchDelegate extends SearchDelegate {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DrinkDetail(
+                  builder: (context) => DrinkDetailPage(
                     id: drink["idDrink"],
                   ),
                 ),
