@@ -27,7 +27,7 @@ class DataKelompok extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 50.0),
                       child: Text(
-                        "Jadi ini merupakan aplikasi sederhana yang kita buat untuk menampilkan beberapa minuman yang biasanya ada di cafe-cafe.",
+                        "Jadi ini merupakan aplikasi sederhana yang kita buat untuk menampilkan beberapa minuman yang biasanya ada di cafe-cafe atau di bar.",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16.0, height: 1.5, color: Colors.white),
                       ),
