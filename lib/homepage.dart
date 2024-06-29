@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsample/datakelompok.dart';
 import 'package:newsample/drinkdetail.dart';
@@ -15,6 +16,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var api = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail";
   var res, drinks;
+  final GlobalKey<SliderDrawerState> _sliderDrawerKey =
+      GlobalKey<SliderDrawerState>();
+  late String title;
 
   @override
   void initState() {
@@ -31,6 +35,40 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: SliderDrawer(
+          appBar: SliderAppBar(
+            drawerIconColor: Colors.black,
+              trailing: Padding(
+                padding: EdgeInsets.only(right: 15),
+                child: IconButton(
+                  icon: Icon(Icons.search, color: Colors.black ,),
+                  onPressed: () {
+                    showSearch(
+                        context: context,
+                        delegate: DrinkSearchDelegate(drinks));
+                  },
+                ),
+              ),
+              appBarColor: Color.fromARGB(127, 143, 64, 0) ,
+              title: Text("Menu",
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.w700))),
+          key: _sliderDrawerKey,
+          sliderOpenSize: 179,
+          slider: _SliderView(
+            onItemClick: (title) {
+              _sliderDrawerKey.currentState!.closeSlider();
+              setState(() {
+                this.title = title;
+              });
+            },
+          ),
+          child: widgetContent(context)),
+    );
+  }
+
+  Container widgetContent(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [
@@ -40,23 +78,6 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text("Cocktail App"),
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          actions: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 15),
-              child: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  showSearch(
-                      context: context, delegate: DrinkSearchDelegate(drinks));
-                },
-              ),
-            ),
-          ],
-        ),
         drawer: drawer(),
         body: Center(
           child: res != null
@@ -75,8 +96,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             "${drink["strDrink"]}",
@@ -321,3 +343,112 @@ class DrinkSearchDelegate extends SearchDelegate {
     );
   }
 }
+
+class _SliderView extends StatelessWidget {
+  final Function(String)? onItemClick;
+
+  const _SliderView({Key? key, this.onItemClick}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.brown.shade200,
+      padding: const EdgeInsets.only(top: 30),
+      child: ListView(
+        children: <Widget>[
+          const SizedBox(
+            height: 30,
+          ),
+          CircleAvatar(
+            radius: 65,
+            backgroundColor: Colors.grey,
+            child: CircleAvatar(
+              radius: 60,
+              backgroundImage: Image.asset("assets/icons/buku.png").image,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            'CAFE JONI',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ...[
+            Menu(Icons.local_drink, 'Alkohol'),
+            Menu(Icons.local_drink_outlined, 'Non-Alkohol'),
+            Menu(Icons.info_outline, 'About'),
+            Menu(Icons.arrow_back_ios, 'Leave')
+          ]
+              .map((menu) => _SliderMenuItem(
+                  title: menu.title,
+                  iconData: menu.iconData,
+                  onTap: onItemClick))
+              .toList(),
+        ],
+      ),
+    );
+  }
+}
+
+class Menu {
+  final IconData iconData;
+  final String title;
+
+  Menu(this.iconData, this.title);
+}
+
+class _SliderMenuItem extends StatelessWidget {
+  final String title;
+  final IconData iconData;
+  final Function(String)? onTap;
+
+  const _SliderMenuItem(
+      {Key? key,
+      required this.title,
+      required this.iconData,
+      required this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(title,
+            style: const TextStyle(
+                color: Colors.black, fontFamily: 'BalsamiqSans_Regular')),
+        leading: Icon(iconData, color: Colors.black),
+        onTap: () {
+          if (title == 'Alkohol') {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MinumanSatu()));
+          } else if (title == 'Non-Alkohol') {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => MinumanDua()));
+          } else if (title == 'About') {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => DataKelompok()));
+          } else if (title == 'Leave') {
+            SystemNavigator.pop();
+          }
+          
+    });
+  }
+}
+
+class Quotes {
+  final MaterialColor color;
+  final String author;
+  final String quote;
+
+  Quotes(this.color, this.author, this.quote);
+}
+
+
